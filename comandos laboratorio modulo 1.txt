@@ -1,0 +1,43 @@
+Comandos utilizados practica 1
+-N/A
+
+Comandos utilizados practica 2
+-dhclient -r eth0
+-ip a show eth0 
+-dhclient eth0
+-nmcli con show
+-nmcli con mod "Wired connection 1" ipv4.method auto
+-nmcli con up "Wired connection 1"
+-nano etc/network/interfaces
+	-auto eth0
+	-iface eth0 inet dhcp
+-systemctl restart networking
+-nmcli con mod "Wired connection 1" ipv4.address 192.168.1.100/24
+-nmcli con mod "Wired connection 1" ipv4.gateway 192.168.1.1
+-nmcli con mod "Wired connection 1" ipv4.method manual 
+-ip addr add 192.168.1.99/24 dev eth0
+-ip route add default via 192.168.1.1
+-nmcli con mod "Wired connection 1" ipv4.dns "8.8.8.8 8.8.4.4"
+-cat etc/resolve.conf
+
+Comandos utilizados practica 3
+-useradd -m -s /bin/bash Miguel
+-passwd Miguel
+-usermod -aG sudo Miguel
+-groups Miguel
+-groupadd guest
+-userdel Juan
+-groupdel guest 
+
+Comandos utilizados practica 4
+-dir 
+-cd Desktop
+-mkdir materia
+-touch estudiante.txt
+-vi estudiante.txt
+-cat estudiante.txt
+-ls -l estudiante.txt
+-chmod 600 estudiante.txt
+-chmod u=, g=rw, o=, estudiante.txt
+-cp estudante.txt /home/miguel/Desktop/materia2
+-rm -r materia

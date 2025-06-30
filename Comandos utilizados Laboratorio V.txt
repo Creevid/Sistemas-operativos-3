@@ -1,0 +1,77 @@
+Laboratorio 5.1
+
+-apt install rsync openssh-server openssh-server -y
+-systemctl status ssh
+-systemctl start ssh
+-systemctl enable ssh
+-ssh-keygen -t rsa -b 4096
+-ssh-copy-id miguel@192.168.100.29
+-ip a
+-ssh miguel@192.168.100.29
+-cd Documents
+-ls
+-mkdir archivos
+-touch {001..100}
+-rsync -avz -e ssh /home/miguel/Documents/archivos miguel@192.168.100.29:/home/miguel/Desktop
+-nano home/miguel/sync/archivos.sh
+-chmod +x home/miguel/sync/archivos.sh
+-crontab -e
+-touch nuevo_archivo.txt
+
+Laboratorio 5.2
+
+-apt install heartbeat -y
+-nano /etc/ha.d/ha.cf
+-nano /etc/ha.d/haresources
+-nano /etc/ha.d/authkeys
+-chmod 600 /tc/ha.d/haresources
+-hostnamectl set-hostname m1
+-hostname
+-systemctl start heartbeat
+-systemctl enable heartbeat
+-systemctl status heartbeat
+
+Laboratorio 5.3
+
+-systemctl status apache2
+-cd /var/www/html
+-ls
+-rm index.html ; rm index.nginx-debian.html
+-nano index.html
+-systemctl restart apache2
+-apt install keepalived
+-nano /etc/keepalived/keepalived.conf
+-systemctl status keepalived
+-systemctl start apache2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

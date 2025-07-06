@@ -1,0 +1,130 @@
+Laboratorio 6.1
+
+-apt install gnupg2 -y
+-cd Desktop
+-mkdir carpeta_secreta
+-cd carpeta_secreta
+-echo "Texto sin cifrar" > cifrado.txt
+-cat cifrado.txt
+-gpg2 -c cifrado.txt
+-rm cifrado.txt
+-cat cifrado.txt.gpg
+-gpg2 -o cifrado.txt cifrado.txt.gpg
+-cat cifrado.txt
+
+Laboratorio 6.2
+
+-systemctl status ssh
+-systemctl status apache2
+-apt install vsftp
+-systemctl start vsftp
+-systemctl enable vsftp
+-systemctl status vsftp
+-ip a
+-iptables -A INPUT -p tcp --dport 80 -J REJECT
+-iptables -A INPUT -p tcp --dport 21 -J REJECT
+-iptables -A INPUT -p tcp --dport 22 -J REJECT
+-iptables -A OUTPUT -p tcp --sport 80 -J REJECT
+-iptables -A OUTPUT -p tcp --sport 21 -J REJECT
+-iptables -A OUTPUT -p tcp --sport 22 -J REJECT
+-iptables -D INPUT -p tcp --dport 80 -J REJECT
+-iptables -D INPUT -p tcp --dport 21 -J REJECT
+-iptables -D INPUT -p tcp --dport 22 -J REJECT
+-iptables -D OUTPUT -p tcp --sport 80 -J REJECT
+-iptables -D OUTPUT -p tcp --sport 21 -J REJECT
+-iptables -D OUTPUT -p tcp --sport 22 -J REJECT
+-ufw enable
+-ufw status verbose
+-ufw deny 80/tcp
+-ufw deny 21/tcp
+-ufw deny 22/tcp
+-ufw allow 80/tcp
+-ufw allow 21/tcp
+-ufw allow 22/tcp
+
+Laboratorio 6.3
+
+-apt install suricata
+-nano /var/lib/suricata/rules/rule
+-nano /etc/suricata/suricata.yaml
+-suricata -c /etc/suricata/suricata.yml -i eth0
+-sudo tail -f /var/log/suricata/fast.log
+
+Laboratorio 6.4
+
+-apt-get install libpam-google-authenticator -y
+-google-authenticator
+-nano /etc/pam.d/sshd
+-nano /etc/ssh/sshd_config
+-systemctl restart sshd.service
+-systemctl status sshd.service
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

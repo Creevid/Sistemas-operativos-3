@@ -1,0 +1,25 @@
+8.1 
+
+- apt install docker.io -y
+- systemctl start docker
+- systemctl enable docker
+- systemctl status docker
+- docker --version 
+- docker pull nginx
+- docker run -d -p 8888:80 -v /home/website:/usr/share/nginx/html --name mynginx nginx
+- docker ps -a 
+- mkdir -p /home/website
+- cd /home/website
+- nano index.html
+
+8.2
+
+- docker pull portainer/portainer  
+- docker run -d -p 9000:9000 -p 8000:8000 --name=portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+- 127.0.0.1:9000 > live connect > containers > nginx > stop > 127.0.0.1:8888
+
+8.3
+- apt install docker-compose -y
+- cd ~ && nano docker-compose.yml
+- docker-compose up -d
+

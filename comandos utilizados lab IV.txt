@@ -1,0 +1,119 @@
+9.1
+
+apt install wget perl -y
+
+wget https://www.webmin.com/download/deb/webmin-current.deb
+
+dpkg -i webmin-current.deb
+
+apt --fix-broken install -y
+
+systemctl status webmin
+
+https://localhost:10000 > users and groups > create a new user
+
+**********************************************************************************************
+
+9.2
+
+wget https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip
+
+unzip erraform_1.11.3_linux_amd64.zip
+
+mv terraform /usr-local-bin
+
+terraform --version
+
+mkdir terraform-do 
+
+cd terraform-do
+
+api > token api 
+
+digital ocean > ajustes > serguridad > agregar clave ssh 
+
+shh-keygen
+
+cat ~/.ssh/id_codigo_generado.pub (copiar y pegar en digital ocian)
+
+nano main.tf 
+
+terraform init
+
+terraform validate (revisar configuracion) 
+
+terraform apply
+	
+nos da la ip pero vamos en digital oean > gotas 
+
+ssh usuario@ip  
+
+********************************************************************************
+
+9.3 ANSIBLE
+
+apt install ansible -y
+
+mkdir -p /etc/ansible
+
+cd /etc/ansible
+
+nano ansible.cfg
+
+nano hosts (modificar la ip de windows y Linux)
+
+ssh-keygen -t rsa -b 4096
+
+cat ~/.ssh/id_rsa.pub 
+
+ir a la maquina en digital ocean y entrar a consola:
+
+adduser ansible
+
+usermod -aG sudo ansible
+
+chsh -s /bin/bash ansible
+
+sudo su ansible 
+
+mkdir ~/.ssh
+
+nano ~/.ssh/authorized_keys (pegar clave ssh)
+
+chmod 600 ~/.ssh/authorized_keys
+
+En Linux:
+
+ansible linux -m ping -u ansible
+
+En windows: 
+
+ejecutar > wf.msc > reglas de entrada > activar remote administration (NP-In) y (rpc) 
+
+verificar en configuracion si la red es privada > cambiar a privada 
+
+abrir powershell 
+
+En Linux:
+
+ansible win -m win_ping
+
+******************************************************************************************************
+
+9.4 
+
+ansible win -i /etc/ansible/hosts -m win_shell -a "Move-Item -Path 'c:/Users/saraa/Desktop/miguel.txt' -Destination 'C:/Users/saraa/Documents/'"
+
+ansible linux -i /etc/ansible/hosts -m reboot --become
+
+*******************************************************************************************************
+
+9.5
+
+nano install_notepad.yml
+
+ansible-playbook install_notepad.yml   
+
+nano up_repos.yml
+
+ansible-playbook up_repos.yml 

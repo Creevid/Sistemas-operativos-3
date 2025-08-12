@@ -1,0 +1,53 @@
+ 7.1: compartir archivos entre linux utilizando NFS
+
+M1
+-apt install nfs-kernel-server -y
+-mkdir OS3
+-cd OS3
+-for i in {1..100}; do touch "Adrian$i.txt"; done
+-ls 
+-cd ..
+-chown -R nobody:nogroup /home/miguel/OS3
+-chmod -R 777 /home/miguel/OS3
+-nano /etc/exports (/home/miguel/OS3 192.168.100.0/24(rw,sync,no_subtree_check) )
+exportsfs -a
+
+M2
+-apt install nfs-common -y
+-mount 192.168.100.43:/home/miguel/OS3 /mnt
+-nano /etc/fstab 
+    agregar al final: (192.168.100.43:/home/miguel/OS3 /mnt nfs defaults 0 0)
+
+7.2: Creacion de fileserver compatible con Windows utilizando SAMBA
+
+-apt install samba krb5-user winbind libpam-winbind libnss-winbind -y
+-systemctl start smbd 
+-systemctl enable smbd
+-systemctl status smbd
+-mkdir -p /srv/samba/shared
+-groupadd sambashare
+-useradd -M -d /srv/samba/shared -s /usr/sbin/nologin -G sambahare miguel
+-smbpasswd -a miguel
+-chmod -R 777 /srv/samba/shared
+-chown -R nobody:nogroup /srv/samba/shared
+-nano /etc/samba/smb.conf 
+
+############################### Configuracion smb.conf  ########################################
+
+[shared]
+path = /srv/samba/shared
+valid users = miguel
+guest ok = no
+writable = yes
+browsable = yes
+
+################################################################################################ 
+
+-systemctl restart smb
+-for i in {1..100}; do touch /srv/samba/shared/Adrian$i.txt; done
+-cd srv/samba/shared
+-ls
+-ip a
+
+ 7.3: Creacion de controlador de Dominio con cliente Windows
+

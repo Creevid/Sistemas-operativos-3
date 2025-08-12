@@ -46,7 +46,20 @@ Laboratorio 6.3
 
 -apt install suricata
 -nano /var/lib/suricata/rules/rule
+
+############################### Configuracion rule ########################################
+
+alert icmp any any -> $HOME_NET any (msg:"Hay trafico de ICMP"; sid:1000001;)
+alert icmp any any -> $HOME_NET 21 (msg:"Hay trafico de FTP, puerto 21"; sid:1000002;)
+alert icmp any any -> $HOME_NET 22 (msg:"Hay trafico de SSH, puerto 22"; sid:1000003;)
+alert icmp any any -> $HOME_NET 80 (msg:"Hay trafico de HTTP, puerto 80"; sid:1000004;)
+
+################################################################################################
+
 -nano /etc/suricata/suricata.yaml
+    rule-files: 
+      - rule
+
 -suricata -c /etc/suricata/suricata.yml -i eth0
 -sudo tail -f /var/log/suricata/fast.log
 
@@ -56,8 +69,11 @@ Laboratorio 6.4
 -google-authenticator
 -nano /etc/pam.d/sshd
 -nano /etc/ssh/sshd_config
+    agregar al final (auth required pam_google_authenticator.so)
+
 -systemctl restart sshd.service
 -systemctl status sshd.service
+
 
 
 

@@ -15,6 +15,14 @@ Laboratorio 5.1
 -rsync -avz -e ssh /home/miguel/Documents/archivos miguel@192.168.100.29:/home/miguel/Desktop
 -nano home/miguel/sync/archivos.sh
 -chmod +x home/miguel/sync/archivos.sh
+
+############################### Configuracion archivos.sh ########################################
+
+#!/bin/bash
+rsync -avz -e ssh /home/miguel/Documents/archivos/ miguel@192.168.100.29:/home/miguel/Desktop
+
+################################################################################################
+
 -crontab -e
 -touch nuevo_archivo.txt
 
@@ -22,8 +30,29 @@ Laboratorio 5.2
 
 -apt install heartbeat -y
 -nano /etc/ha.d/ha.cf
--nano /etc/ha.d/haresources
+
+############################### Configuracion ha.cf ########################################
+
+logfile /var/log/ha-log
+logfacility local0
+keepalive 2
+deadtime 10
+warntime 5
+initdead 20
+udpport 694
+bcast eth0
+auto_failback on
+node m1
+node m2
+
+################################################################################################
+
+-nano /etc/ha.d/haresources (m1 IPaddr::192.168.100.101/24/eth0 apache2)
 -nano /etc/ha.d/authkeys
+
+    (auth 1
+    1 crc)
+
 -chmod 600 /tc/ha.d/haresources
 -hostnamectl set-hostname m1
 -hostname
@@ -41,8 +70,30 @@ Laboratorio 5.3
 -systemctl restart apache2
 -apt install keepalived
 -nano /etc/keepalived/keepalived.conf
+
+############################### Configuracion keepalived.conf ########################################
+
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 51
+    priority 101
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass clave123
+    }
+    virtual_ipaddress {
+        192.168.100.100
+    }
+}
+
+################################################################################################
+
 -systemctl status keepalived
 -systemctl start apache2
+
 
 
 

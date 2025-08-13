@@ -38,6 +38,35 @@ cat ~/.ssh/id_codigo_generado.pub (copiar y pegar en digital ocian)
 
 nano main.tf 
 
+######################################### Archivo de configuracion main.tf ############################################
+
+terraform {
+  required_providers {
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "digitalocean" {
+  token = "TU_API_TOKEN"
+}
+
+resource "digitalocean_droplet" "OS3vm" {
+  image = "ubuntu-22-04-x64"
+  name  = "OS3vm"
+  region = "nyc1"
+  size  = "s-1vcpu-1gb"
+  ssh_keys = [var.ssh_fingerprint]
+}
+
+variable "ssh_fingerprint" {
+  default = "TU_LLAVE_PUBLICA_FINGERPRINT"
+}
+
+##############################################################################################################
+
 terraform init
 
 terraform validate (revisar configuracion) 
@@ -59,6 +88,19 @@ mkdir -p /etc/ansible
 cd /etc/ansible
 
 nano ansible.cfg
+
+######################################### Archivo de configuracion main.tf ############################################
+
+[defaults]
+inventory = /etc/ansible/hosts
+private_key_file = /home/ansible/.ssh/id_rsa
+host_key_checking = False
+ask_become_pass = True
+
+[ssh_connection]
+ssh_args = -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s
+
+##############################################################################################################
 
 nano hosts (modificar la ip de windows y Linux)
 
@@ -112,8 +154,48 @@ ansible linux -i /etc/ansible/hosts -m reboot --become
 
 nano install_notepad.yml
 
+######################################### Archivo de configuracion main.tf ############################################
+
+- name: Descargar e instalar Notepad++ en Windows 10
+  hosts: win
+  tasks:
+    - name: Descargar instalador de Notepad++
+      win_get_url:
+        url: https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.7/npp.8.5.7.Installer.x64.exe
+        dest: C:\Users\saraa\Downloads\npp_installer.exe
+
+    - name: Ejecutar el instalador de Notepad++
+      win_package:
+        path: C:\Users\saraa\Downloads\npp_installer.exe
+        arguments: /S
+        state: present
+
+##############################################################################################################
+
+
 ansible-playbook install_notepad.yml   
 
 nano up_repos.yml
 
+######################################### Archivo de configuracion main.tf ############################################
+
+- name: Instalar y configurar NGINX en servidores Linux
+  hosts: linux
+  become: true
+  tasks:
+    - name: Instalar NGINX
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: yes
+    
+    - name: Asegurarse de que NGINX esté iniciado
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+##############################################################################################################
+
 ansible-playbook up_repos.yml 
+
